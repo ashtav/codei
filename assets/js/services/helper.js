@@ -115,94 +115,38 @@ class Fn{
         }
     }
 
-    signin(params = {}){
-        
-        // properties required
-        let required = ['url','data']
-        
-        // check properties
-        required.forEach((k) => {
-            if(params[k] == null) throw(k+' is required.')
-        })
+    confirm(params = {}){
 
-        // animasi button submit
-        let _btn
+        $('.popup-confirmation').remove()
 
-        if(params.spiner != null){
-            _btn = $(params.spiner).html()
-            $(params.spiner).html(spin).prop('disabled',true)
-        }
+        $('body').append(
+            `
+                <div class="popup-confirmation">
+                    <div class="backdrop" onclick="$('.popup-confirmation').fadeOut(300)"></div>
+                    <div class="popup-content">
 
-        function _setDefaultButton(){
-            if(params.spiner != null){
-                $(params.spiner).html(_btn).prop('disabled',false)
-            }
-        }
-        
-        $.ajax({
-            url: params.url,
-            type: 'post', data: params.data,
-            contentType: false, processData: false,
-            success: (res) => {
-                _setDefaultButton()
-                if(params.success != null) params.success(res) 
-            }, 
-            error: (err) => {
-                _setDefaultButton()
+                        <div class="message">
+                            `+(params.message || '')+`
+                        </div>
 
-                if(params.error != null){
-                    params.error(err)
-                }else{
-                    toast(err.statusText)
-                }
-            }
-        });
+                        <div class="control">
+                            <button onclick="$('.popup-confirmation').fadeOut(300)">Batal</button>
+                            <button id="__confirm">`+(params.textConfirm || 'Confirm')+`</button>
+                        </div>
+                    </div>
+                </div>
+            `
+        )
+
+        $('#__confirm').click(params.confirm.bind(params, $('#__confirm')))
     }
 
-    create(params = {}){
-        
-        // properties required
-        let required = ['url','data']
-        
-        // check properties
-        required.forEach((k) => {
-            if(params[k] == null) throw(k+' is required.')
-        })
+    _(e){
+        let def = $(e).html()
+        $(e).html(spin).prop('disabled',true)
 
-        // animasi button submit
-        let _btn
 
-        if(params.spiner != null){
-            _btn = $(params.spiner).html()
-            $(params.spiner).html(spin).prop('disabled',true)
-        }
-
-        function _setDefaultButton(){
-            if(params.spiner != null){
-                $(params.spiner).html(_btn).prop('disabled',false)
-            }
-        }
-        
-        $.ajax({
-            url: params.url,
-            type: 'post', data: params.data,
-            contentType: false, processData: false,
-            success: (res) => {
-                _setDefaultButton()
-                if(params.success != null) params.success(res) 
-            }, 
-            error: (err) => {
-                _setDefaultButton()
-
-                if(params.error != null){
-                    params.error(err)
-                }else{
-                    toast(err.statusText)
-                }
-            }
-        });
     }
-
 
 }
 

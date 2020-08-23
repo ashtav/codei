@@ -49,6 +49,7 @@
                       <th>Jenis Kelamin</th>
                       <th>Alamat</th>
                       <th>No. Telepon</th>
+                      <th>Role</th>
                       <th class="text-center"> <i class="fe fe-settings"></i> </th>
                     </tr>
                   </thead>
@@ -69,6 +70,7 @@
                             <th>$value[jenis_kelamin]</th>
                             <th></th>
                             <th></th>
+                            <th>$value[role]</th>
                             <th class='text-center'>
                               <div class='btn-group'>
                                 <button type='button' class='btn btn-sm btn-success' onclick='_confirm(this, $value[id])'> <i class='fe fe-check'></i> </button>
@@ -105,6 +107,7 @@
                       <th>Jenis Kelamin</th>
                       <th>Alamat</th>
                       <th>No. Telepon</th>
+                      <th>Role</th>
                       <th class="text-center"> <i class="fe fe-settings"></i> </th>
                     </tr>
                   </thead>
@@ -125,6 +128,7 @@
                             <th>$value[jenis_kelamin]</th>
                             <th></th>
                             <th></th>
+                            <th>$value[role]</th>
                             <th class='text-center'>
                               <div class='btn-group'>
                                 <button type='button' class='btn btn-sm btn-primary' onclick='_edit(this, $value[id])'> <i class='fe fe-edit-2'></i> </button>
@@ -175,8 +179,26 @@
 
         }
 
-        function _rejected($id){
-            
+        function test(){
+            alert('ds')
+        }
+
+        function _rejected(id){
+
+            fn.confirm({
+                message: 'Yakin ingin menolak pendaftaran ini?',
+                textConfirm: 'Ya',
+                confirm: (e) => {
+                    fn.request({
+                        url: 'users/rejected/'+id,
+                        spiner: e,
+                        success: () => {
+                            toast('Berhasil dihapus')
+                            reload()
+                        }
+                    })
+                }
+            })
         }
 
     </script>
