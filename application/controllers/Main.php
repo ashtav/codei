@@ -15,7 +15,7 @@ class Main extends CI_Controller {
 		$email = strtolower(post('email'));
 		$password = post('password');
 		
-		$auth = _getwhere('users', ['email' => $email])->row_array();
+		$auth = _getjoin('users|user_details','id|user_id')->where(['email' => $email])->get()->row_array();
 		
 		if(password_verify($password, $auth['password'])){
 			if($auth['status'] == 'waiting'){
@@ -23,20 +23,14 @@ class Main extends CI_Controller {
 				return;
 			}
 
-			$user = _getwhere('users', ['id' => $auth['id']])->row_array();
-			$token = generate_random_string(50);
-
 			$data_session = [
 				'id' => $auth['id'],
-				'nama' => $user['nama'],
-				'email' => $email,
-				'status' => 'logged',
-				'token' => $token,
+				'nama' => $auth['nama'],
+				'email' => $auth['email']
 			];
 
 			$this->session->set_userdata($data_session);
-
-			echo json_encode($auth);
+			echo json_encode($data_session);
 		}else{
 			$this->output->set_header('HTTP/1.0 400 Login gagal.');
 		}

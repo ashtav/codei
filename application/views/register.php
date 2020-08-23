@@ -93,7 +93,7 @@
       function _submit(f){ // submit form data
         
         // fungsi request ke server
-        fn.create({
+        fn.request({
           url: 'register/register', // url controller
           data: new FormData($(f)[0]), // form data yang dikirim
           spiner: $(f).find('button[type=submit]'), // loading tombol submit

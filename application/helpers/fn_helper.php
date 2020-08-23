@@ -2,12 +2,67 @@
 
   // helper, created by ashta
 
+  // _get('users')->result_array();
+  function _get($table){
+    $ci = &get_instance();
+    return $ci->db->get($table);
+  }
+
   // _getwhere('users', ['email' => 'lorem@gmail.com']) ? ->num_rows(), ->row_array(), etc
   function _getwhere($table, $where){
     $ci = &get_instance();
     return $ci->db->get_where($table, $where);
   }
 
+  // _getjoin('users','user_details','id|user_id')->get()->result_array();
+  function _getjoin($table, $join){
+    $ci = &get_instance();
+
+    $t = explode('|',$table);
+    $j = explode('|',$join);
+
+    return $ci->db->select('*')->from($t[0])
+      ->join($t[1], $t[0].'.'.$j[0].' = '.$t[1].'.'.$j[1]);
+  }
+
+  // _update('users', ['id' => $id], ['status' => 'active']);
+  function _update($table, $where, $data){
+    $ci = &get_instance();
+    $ci->db->where($where)->update($table, $data);
+  }
+
+  // _delete('users', ['id' => $id]);
+  function _delete($table, $where){
+    $ci = &get_instance();
+    $ci->db->where($where)->delete($table);
+  }
+
+  // _deleteAll('users');
+  function _deleteAll($table){
+    $ci = &get_instance();
+    $ci->db->empty_table($table);
+  }
+
+
+
+  // ==========
+
+  // if( !auth('email') )
+  function auth($value){
+    $ci = &get_instance();
+		return $ci->session->userdata($value);
+  }
+  
+  // hash password -> hasp('secret')
+  function hasp($password){
+    $options = ['cost' => 12];
+    return password_hash($password, PASSWORD_BCRYPT, $options);
+  }
+
+  // url('page')
+  function url($url = '/'){
+    return base_url($url);
+  }
 
 
 
@@ -21,12 +76,6 @@
   function date_time($format = 'Y-m-d h:i:s'){
     date_default_timezone_set('Asia/Singapore');
     return date($format);
-  }
-
-  // HASH PASSWORD
-  function hasp($password){
-    $options = ['cost' => 12,];
-    return password_hash($password, PASSWORD_BCRYPT, $options);
   }
 
   // GENERATE STRING
@@ -221,7 +270,6 @@
     return $check > 0 ? true : false;
   }
 
-  function url(){ return base_url(); }
 
   // SHORT CRUD
   function _insert($table, $data){
@@ -229,10 +277,6 @@
     $ci->db->insert($table, $data);
   }
 
-  function _get($table, $order = false){
-    $ci = &get_instance();
-    return $order ? $ci->mod->get_data($table, $order) : $ci->mod->get_data($table);
-  }
 
   // function _getWhere($table){
   //   $ci = &get_instance();
@@ -244,9 +288,6 @@
     return $ci->mod->get_join_where($table1, $table2, $joinBy, $where, $value, $order);
   }
 
-  function _update($table, $id, $value, $data){
-    $ci = &get_instance();
-    $ci->mod->update($table, $id, $value, $data);
-  }
+  
 
 ?>

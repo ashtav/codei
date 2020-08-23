@@ -4,6 +4,9 @@
 
     <div class="page">
       <div class="flex-fill">
+
+        <?php $this->load->view('pages/dashboard/partials/navbar') ?>
+
         <div class="my-3 my-md-5">
 
           <div class="container">
@@ -12,7 +15,7 @@
               <div class="col-6">
                 <div class="my-5">
                   <h3 class="m-0"> <a href="./">Dashboard</a></h3>
-                  Hai! Welcome to Medic.
+                  Hai! Welcome to Medic. <?= auth('nama') ?>
                 </div>
               </div>
               <div class="col-6">

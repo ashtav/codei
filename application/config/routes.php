@@ -57,4 +57,5 @@ $route['signin'] = 'main/signin';
 $route['register'] = 'register/index';
 
 $route['dashboard'] = 'dashboard/index';
+$route['dashboard/users'] = 'users/index';
 

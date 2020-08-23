@@ -51,11 +51,11 @@
 
       function _signin(f){
 
-        fn.signin({
+        fn.request({
           url: 'main/signin',
           data: new FormData($(f)[0]),
           spiner: $(f).find('button[type=submit]'), // loading tombol submit
-          success: () => { // jika berhasil
+          success: (res) => { // jika berhasil
             to('dashboard')
           }
         })
