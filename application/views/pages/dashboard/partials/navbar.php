@@ -31,7 +31,7 @@
               <i class="dropdown-icon fe fe-settings"></i> Pengaturan
             </a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="logout">
+            <a class="dropdown-item" href="<?= url('signout') ?>">
               <i class="dropdown-icon fe fe-log-out"></i> Keluar
             </a>
           </div>
@@ -62,12 +62,12 @@
               <a href="<?= url('dashboard') ?>" class="nav-link"><i class="fe fe-home"></i> <span class="d-none d-md-block">Beranda</span></a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item <?= auth('role') != 'admin' ? 'd-none' : '' ?>">
               <a href="<?= url('/dashboard/users') ?>" class="nav-link"><i class="fe fe-users"></i> <span class="d-none d-md-block">Pengguna</span></a>
             </li>
 
             <li class="nav-item">
-              <a href="<?= url('dokter') ?>" class="nav-link"><i class="fe fe-git-branch"></i> <span class="d-none d-md-block">Rumah Sakit</span></a>
+              <a href="<?= url('/dashboard/rumah-sakit') ?>" class="nav-link"><i class="fe fe-git-branch"></i> <span class="d-none d-md-block">Rumah Sakit</span></a>
             </li>
 
             
@@ -77,7 +77,7 @@
             </li> -->
           
             <li class="nav-item dropdown">
-              <a href="<?= url('pengaturan') ?>" class="nav-link"><i class="fe fe-settings"></i> <span class="d-none d-md-block">Pengaturan</span></a>
+              <a href="<?= url('/dashboard/profil') ?>" class="nav-link"><i class="fe fe-user"></i> <span class="d-none d-md-block">Profil</span></a>
             </li>
           </ul>
 

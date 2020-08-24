@@ -18,91 +18,80 @@
                   Hai! Welcome to Medic. <?= auth('nama') ?>
                 </div>
               </div>
-              <div class="col-6">
-                <div class="form-group my-5">
-                    <!-- <div class="col input-icon">
-                      <form onsubmit="return search(this)">
-                        <span class="input-icon-addon">
-                          <i class="fe fe-search"></i>
-                        </span>
-                        <input type="text" class="form-control" placeholder="Search...">
-                      </form>
-                    </div> -->
-                    <span class="pull-right">
-                      <button type="button" data-toggle="modal" data-target="#new-product" class="btn btn-primary btn-block"> <i class="fe fe-plus"></i> New </button>
-                    </span>
+            </div>
+
+            <div class="alert <?= $terdaftar > 0 ? 'alert-success' : 'alert-info' ?>">
+              <?= $terdaftar > 0 ? 'Pendaftaran rumah sakit Anda sedang diproses.' : 'Ingin mendaftarkan klinik atau rumah sakit Anda?' ?>
+
+              <a href="jscript:void(0)" class="<?= $terdaftar > 0 ? 'd-none' : '' ?>" onclick="_new()"> <b class="pull-right">Daftar Disini</b> </a>
+            </div>
+
+            <div class="row row-cards">
+              <div class="col-6 col-sm-4">
+                <div class="card">
+                  <div class="card-body p-3 text-center">
+                    <div class="text-right text-green">
+                      6%
+                      <i class="fe fe-chevron-up"></i>
+                    </div>
+                    <div class="h1 m-0">43</div>
+                    <div class="text-muted mb-4">New Tickets</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 col-sm-4">
+                <div class="card">
+                  <div class="card-body p-3 text-center">
+                    <div class="text-right text-red">
+                      -3%
+                      <i class="fe fe-chevron-down"></i>
+                    </div>
+                    <div class="h1 m-0">17</div>
+                    <div class="text-muted mb-4">Closed Today</div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- <div class="table-responsive">
-              <?php if(!$users){ _empty(); }else{ ?>
-              <div class="card">
-                <table class="table table-striped m-0">
-                  <thead>
-                    <tr>
-                      <th class="text-center">No</th>
-                      <th>Nim</th>
-                      <th>Nama Mahasiswa</th>
-                      <th>Tempat & Tgl Lahir</th>
-                      <th>Jenis Kelamin</th>
-                      <th>Alamat</th>
-                      <th>No. Telepon</th>
-                      <th class="text-center"> <i class="fe fe-settings"></i> </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                      $no = 0;
-                      foreach ($users as $key => $value) { $no++;
-                        $x = ($page - 1) * 5 + $no;
-
-                        $img = './assets/images/img-placeholder.jpg';
-                        $tl = _date($value['tanggal_lahir']);
-
-                        echo "
-                          <tr>
-                            <th class='text-center'>$x</th>
-                            <th>$value[nim]</th>
-                            <th>$value[nama]</th>
-                            <th>$value[tempat_lahir], $tl</th>
-                            <th>$value[jenis_kelamin]</th>
-                            <th>$value[alamat]</th>
-                            <th>$value[telepon]</th>
-                            <th class='text-center'>
-                              <div class='btn-group'>
-                                <button type='button' class='btn btn-sm btn-primary' onclick='_edit(this, $value[id])'> <i class='fe fe-edit-2'></i> </button>
-                                <button type='button' class='btn btn-sm btn-danger' onclick='_delete($value[id])'> <i class='fe fe-trash'></i> </button>
-                              </div>
-                            </th>
-                          </tr>
-                        ";
-
-                      }
-                    ?>
-
-                  </tbody>
-                </table>
-              </div>
-
-              <div class="text-center" id="paginate">
-                <div class="btn-group"> </div>
-              </div>
-
-              <?php } ?>
-
-            </div> -->
-
           </div>
+
+          
 
         </div>
       </div>
+
+      
 
     </div>
 
     <?php
       $this->load->view('partials/script');
+      $this->load->view('pages/dashboard/rumah-sakit/modals/form-rumah-sakit');
     ?>
+
+    <script>
+
+      function _new(){
+        fn.modal({
+          id: 'form-rs',
+          title: 'Daftar Rumah Sakit',
+          submit: (e) => {
+            fn.request({
+                url: 'rumahsakit/register',
+                data: new FormData($(e).find('form')[0]),
+                spiner:  $(e).find('button[type=submit]'),
+                success: () => {
+                    toast('Berhasil mendaftar, mohon menunggu konfirmasi.')
+                    reload()
+                }
+            })
+
+            return false
+          }
+        })
+      }
+
+    </script>
 
   </body>
 </html>

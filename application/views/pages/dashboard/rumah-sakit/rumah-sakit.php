@@ -14,23 +14,8 @@
             <div class="row">
               <div class="col-6">
                 <div class="my-5">
-                  <h3 class="m-0"> <a href="./">Pengguna</a></h3>
-                  Jumlah pengguna <?= $jumlah_user.' orang' ?>
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group my-5">
-                    <!-- <div class="col input-icon">
-                      <form onsubmit="return search(this)">
-                        <span class="input-icon-addon">
-                          <i class="fe fe-search"></i>
-                        </span>
-                        <input type="text" class="form-control" placeholder="Search...">
-                      </form>
-                    </div> -->
-                    <span class="pull-right">
-                      <button type="button" onclick="_new()" class="btn btn-primary btn-block"> <i class="fe fe-plus"></i> New </button>
-                    </span>
+                  <h3 class="m-0"> <a href="./">Rumah Sakit</a></h3>
+                  Jumlah rumah sakit (<?= $jumlah_rs ?>)
                 </div>
               </div>
             </div>
@@ -44,12 +29,12 @@
                   <thead>
                     <tr>
                       <th class="text-center">No</th>
-                      <th>Nama</th>
-                      <th>Tempat & Tgl Lahir</th>
-                      <th>Jenis Kelamin</th>
+                      <th>Nama Rumah Sakit</th>
                       <th>Alamat</th>
                       <th>No. Telepon</th>
-                      <th>Role</th>
+                      <th>Email</th>
+                      <th>Waktu Operasional</th>
+                      <th>Didaftarkan Oleh</th>
                       <th class="text-center"> <i class="fe fe-settings"></i> </th>
                     </tr>
                   </thead>
@@ -60,20 +45,19 @@
                         // $x = ($page - 1) * 5 + $no;
 
                         $img = './assets/images/img-placeholder.jpg';
-                        $tl = _date($value['tanggal_lahir']);
 
                         echo "
                           <tr>
                             <th class='text-center'>$no</th>
                             <th>$value[nama]</th>
-                            <th>$value[tempat_lahir], $tl</th>
-                            <th>$value[jenis_kelamin]</th>
-                            <th></th>
-                            <th></th>
-                            <th>$value[role]</th>
+                            <th>$value[alamat]</th>
+                            <th>$value[telepon]</th>
+                            <th>$value[email]</th>
+                            <th>$value[jam_buka] - $value[jam_tutup]</th>
+                            <th>$value[un]</th>
                             <th class='text-center'>
                               <div class='btn-group'>
-                                <button type='button' class='btn btn-sm btn-success' onclick='_confirm(this, $value[id])'> <i class='fe fe-check'></i> </button>
+                                <button type='button' class='btn btn-sm btn-success' onclick='_confirm(this, $value[id], $value[created_by])'> <i class='fe fe-check'></i> </button>
                                 <button type='button' class='btn btn-sm btn-danger' onclick='_rejected($value[id])'> <i class='fe fe-x'></i> </button>
                               </div>
                             </th>
@@ -102,12 +86,12 @@
                   <thead>
                     <tr>
                       <th class="text-center">No</th>
-                      <th>Nama</th>
-                      <th>Tempat & Tgl Lahir</th>
-                      <th>Jenis Kelamin</th>
+                      <th>Nama Rumah Sakit</th>
                       <th>Alamat</th>
                       <th>No. Telepon</th>
-                      <th>Role</th>
+                      <th>Email</th>
+                      <th>Waktu Operasional</th>
+                      <th>Didaftarkan Oleh</th>
                       <th class="text-center"> <i class="fe fe-settings"></i> </th>
                     </tr>
                   </thead>
@@ -124,11 +108,11 @@
                           <tr>
                             <th class='text-center'>$no</th>
                             <th>$value[nama]</th>
-                            <th>$value[tempat_lahir], $tl</th>
-                            <th>$value[jenis_kelamin]</th>
                             <th>$value[alamat]</th>
                             <th>$value[telepon]</th>
-                            <th>$value[role]</th>
+                            <th>$value[email]</th>
+                            <th>$value[jam_buka] - $value[jam_tutup]</th>
+                            <th>$value[un]</th>
                             <th class='text-center'>
                               <div class='btn-group'>
                                 <button type='button' class='btn btn-sm btn-primary' onclick='_edit(".json_encode($value).")'> <i class='fe fe-edit-2'></i> </button>
@@ -162,38 +146,15 @@
 
     <?php
       $this->load->view('partials/script');
-      $this->load->view('pages/dashboard/users/modals/form-user');
+      $this->load->view('pages/dashboard/rumah-sakit/modals/form-rumah-sakit');
 
     ?>
 
     <script>
 
-        function _new(){
-          fn.modal({
-            id: 'form-user',
-            title: 'Tambah Pengguna',
-            script: () => {
-              $('#account').hide()
-            },
-            submit: (e) => {
-              fn.request({
-                  url: 'users/store',
-                  data: new FormData($(e).find('form')[0]),
-                  spiner:  $(e).find('button[type=submit]'),
-                  success: () => {
-                      toast('Berhasil ditambahkan')
-                      reload()
-                  }
-              })
-
-              return false
-            }
-          })
-        }
-
-        function _confirm(e, id){
+        function _confirm(e, id, uid){
           fn.request({
-              url: 'users/confirm/'+id,
+              url: 'rumahsakit/confirm/'+id+'/'+uid,
               spiner: e,
               success: (res) => {
                   toast('Berhasil dikonfirmasi')
@@ -208,7 +169,7 @@
               textConfirm: 'Ya',
               confirm: (e) => {
                   fn.request({
-                      url: 'users/rejected/'+id,
+                      url: 'rumahsakit/rejected/'+id,
                       spiner: e,
                       success: () => {
                           toast('Berhasil dihapus')
@@ -221,11 +182,11 @@
 
         function _delete(id){
           fn.confirm({
-              message: 'Yakin ingin menghapus pengguna ini?',
+              message: 'Yakin ingin menghapus rumah sakit ini?',
               textConfirm: 'Ya',
               confirm: (e) => {
                   fn.request({
-                      url: 'users/delete/'+id,
+                      url: 'rumahsakit/delete/'+id,
                       spiner: e,
                       success: () => {
                           toast('Berhasil dihapus')
@@ -238,12 +199,12 @@
 
         function _edit(data){
           fn.modal({
-            id: 'form-user',
-            title: 'Edit Pengguna',
+            id: 'form-rs',
+            title: 'Edit Rumah Sakit',
             data: data,
             submit: (e) => {
               fn.request({
-                  url: 'users/update/'+data.id,
+                  url: 'rumahsakit/update/'+data.id,
                   data: new FormData($(e).find('form')[0]),
                   spiner:  $(e).find('button[type=submit]'),
                   success: () => {

@@ -26,4 +26,42 @@ class Users extends CI_Controller {
 		_delete('users', ['id' => $id]);
 	}
 
+	public function delete($id){
+		_delete('users', ['id' => $id]);
+	}
+
+	public function update($id){
+		$data = [
+			'nama' => ucwords(post('nama')),
+			'tempat_lahir' => ucwords(post('tempat_lahir')),
+			'tanggal_lahir' => post('tanggal_lahir'),
+			'jenis_kelamin' => post('jenis_kelamin'),
+			'alamat' => ucwords(post('alamat')),
+			'telepon' => post('telepon'),
+		];
+
+		_update('user_details', ['user_id' => $id], $data);
+	}
+
+	public function profil(){
+		$data['auth'] = _getAuth();
+		$this->load->view('pages/dashboard/users/profil', $data);
+	}
+
+	public function update_account($id){
+		$email = strtolower(post('email'));
+
+		if(_getwhere('users', ['email' => $email, 'id !=' => $id])->num_rows() > 0){
+			$this->output->set_header('HTTP/1.0 400 Email ini sudah terpakai.');
+			return;
+		}
+
+		$data = [
+			'email' => $email,
+			'password' => hasp(post('password')),
+		];
+
+		_update('users', ['id' => $id], $data);
+	}
+
 }

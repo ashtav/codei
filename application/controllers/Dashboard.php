@@ -12,7 +12,8 @@ class Dashboard extends CI_Controller {
 	}
 
 	public function index(){
-		$this->load->view('pages/dashboard/home/home');
+		$data['terdaftar'] = _getwhere('rumah_sakit', ['created_by' => auth('id')])->num_rows();
+		$this->load->view('pages/dashboard/home/home', $data);
 	}
 
 }

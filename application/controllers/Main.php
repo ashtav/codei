@@ -26,7 +26,8 @@ class Main extends CI_Controller {
 			$data_session = [
 				'id' => $auth['id'],
 				'nama' => $auth['nama'],
-				'email' => $auth['email']
+				'email' => $auth['email'],
+				'role' => $auth['role']
 			];
 
 			$this->session->set_userdata($data_session);
@@ -35,5 +36,11 @@ class Main extends CI_Controller {
 			$this->output->set_header('HTTP/1.0 400 Login gagal.');
 		}
 		
+	}
+
+	public function signout(){
+		if(auth('email')){
+			destroySession('/');
+		}
 	}
 }

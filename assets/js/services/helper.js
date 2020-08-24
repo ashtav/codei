@@ -141,12 +141,51 @@ class Fn{
         $('#__confirm').click(params.confirm.bind(params, $('#__confirm')))
     }
 
-    _(e){
-        let def = $(e).html()
-        $(e).html(spin).prop('disabled',true)
+    modal(params = {}){
+        if(params.id == null) throw('modal id is required.')
 
+        let mod = $('#'+params.id)
+
+        mod.modal('show') // show modal
+
+        mod.find('.modal-title').html((params.title || 'Title'))
+
+        if(params.data != null){
+            mod.find('input').each(function(){ // loop setiap input
+                let nameAttr = $(this).attr('name'),
+                    type = $(this).attr('type')
+
+                // check input type
+                switch (type) {
+                    case 'radio':
+                        $(this).each(function(){
+                            let radioValue = $(this).val();
+                            if(radioValue == params.data[nameAttr]){
+                                $(this).prop('checked',true)
+                            }
+                        })
+                        break;
+                
+                    default:
+                        if(params.data[nameAttr] != null){
+                            $(this).val(params.data[nameAttr])
+                        }
+
+                        break;
+                }
+            })
+        }else{
+            mod.find('form')[0].reset()
+        }
+
+        mod.find('form').submit(params.submit.bind(params, mod))
+
+        if(params.script != null){
+            params.script()
+        }
 
     }
+
 
 }
 

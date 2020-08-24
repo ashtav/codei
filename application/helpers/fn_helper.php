@@ -3,25 +3,31 @@
   // helper, created by ashta
 
   // _get('users')->result_array();
-  function _get($table){
-    $ci = &get_instance();
-    return $ci->db->get($table);
+  // function _get($table){
+  //   $ci = &get_instance();
+  //   return $ci->db->get($table);
+  // }
+
+  function _getAuth(){
+    $data = _getjoin('users|user_details','id|user_id')->where(['id' => auth('id')])->get()->row_array();
+    unset($data['password']);
+    return $data;
   }
 
   // _getwhere('users', ['email' => 'lorem@gmail.com']) ? ->num_rows(), ->row_array(), etc
   function _getwhere($table, $where){
     $ci = &get_instance();
-    return $ci->db->get_where($table, $where);
+    return $ci->db->where('deleted_at', null)->get_where($table, $where);
   }
 
   // _getjoin('users','user_details','id|user_id')->get()->result_array();
-  function _getjoin($table, $join){
+  function _getjoin($table, $join, $select = '*'){
     $ci = &get_instance();
 
     $t = explode('|',$table);
     $j = explode('|',$join);
 
-    return $ci->db->select('*')->from($t[0])
+    return $ci->db->select($select)->from($t[0])->where('deleted_at', null)
       ->join($t[1], $t[0].'.'.$j[0].' = '.$t[1].'.'.$j[1]);
   }
 
@@ -34,13 +40,18 @@
   // _delete('users', ['id' => $id]);
   function _delete($table, $where){
     $ci = &get_instance();
-    $ci->db->where($where)->delete($table);
+    $ci->db->where($where)->update($table, ['deleted_at' => dateTime()]);
   }
 
   // _deleteAll('users');
   function _deleteAll($table){
     $ci = &get_instance();
     $ci->db->empty_table($table);
+  }
+
+  function forceDelete($table, $where){
+    $ci = &get_instance();
+    $ci->db->where($where)->delete($table);
   }
 
 
@@ -64,6 +75,12 @@
     return base_url($url);
   }
 
+  function destroySession($redirect_to = './'){
+    $ci = &get_instance();
+		$ci->session->sess_destroy();
+		redirect(base_url($redirect_to));
+  }
+
 
 
 
@@ -73,7 +90,7 @@
 
 
   // WAKTU SAAT INI
-  function date_time($format = 'Y-m-d h:i:s'){
+  function dateTime($format = 'Y-m-d h:i:s'){
     date_default_timezone_set('Asia/Singapore');
     return date($format);
   }
@@ -235,11 +252,7 @@
 		}
 	}
 
-  function sess_destroy($redirect_to = './'){
-    $ci = &get_instance();
-		$ci->session->sess_destroy();
-		redirect(base_url($redirect_to));
-  }
+  
 
   function _auth($nim, $password){
     $ci = &get_instance();

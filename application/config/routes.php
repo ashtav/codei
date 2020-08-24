@@ -54,8 +54,13 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['signin'] = 'main/signin';
+$route['signout'] = 'main/signout';
 $route['register'] = 'register/index';
 
 $route['dashboard'] = 'dashboard/index';
 $route['dashboard/users'] = 'users/index';
+$route['dashboard/rumah-sakit'] = 'rumahsakit/index';
+
+$route['dashboard/profil'] = 'users/profil';
+
 
