@@ -20,15 +20,15 @@
             <span class="avatar" style="background-image: url('./storage/images/')"></span>
             <span class="ml-2 d-none d-lg-block">
               <span class="text-default"><?= auth('nama') ?></span>
-              <small class="text-muted d-block mt-1"><?= auth('email') ?></small>
+              <small class="text-muted d-block mt-1"><?= auth('role') ?></small>
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-            <a class="dropdown-item" href="<?= url('profil') ?>">
+            <a class="dropdown-item" href="<?= url('dashboard/profil') ?>">
               <i class="dropdown-icon fe fe-user"></i> Profil
             </a>
-            <a class="dropdown-item" href="<?= url('pengaturan') ?>">
-              <i class="dropdown-icon fe fe-settings"></i> Pengaturan
+            <a class="dropdown-item" href="jscript:void(0)">
+              <i class="dropdown-icon fe fe-info"></i> Tentang Aplikasi
             </a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="<?= url('signout') ?>">
@@ -68,6 +68,10 @@
 
             <li class="nav-item">
               <a href="<?= url('/dashboard/rumah-sakit') ?>" class="nav-link"><i class="fe fe-git-branch"></i> <span class="d-none d-md-block">Rumah Sakit</span></a>
+            </li>
+
+            <li class="nav-item">
+              <a href="<?= url('/dashboard/rumah-sakit') ?>" class="nav-link"><i class="fe fe-bell"></i> <span class="d-none d-md-block">Pemberitahuan</span></a>
             </li>
 
             

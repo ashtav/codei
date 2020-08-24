@@ -12,10 +12,16 @@ class RumahSakit extends CI_Controller {
 	}
 
 	public function index(){
-		$data['waiting'] = _getjoin('user_details|rumah_sakit','user_id|created_by','*,user_details.nama as un')->where(['status' => 'waiting'])->get()->result_array();
-		$data['data'] = _getjoin('user_details|rumah_sakit','user_id|created_by','*,user_details.nama as un')->where(['status' => 'active'])->get()->result_array();
-		$data['jumlah_rs'] = _getwhere('rumah_sakit', ['status' => 'active'])->num_rows();
-		$this->load->view('pages/dashboard/rumah-sakit/rumah-sakit', $data);
+		if(auth('role') == 'admin'){
+			$data['waiting'] = _getjoin('user_details|rumah_sakit','user_id|created_by','*,user_details.nama as un')->where(['status' => 'waiting'])->get()->result_array();
+			$data['data'] = _getjoin('user_details|rumah_sakit','user_id|created_by','*,user_details.nama as un')->where(['status' => 'active'])->get()->result_array();
+			$data['jumlah_rs'] = _getwhere('rumah_sakit', ['status' => 'active'])->num_rows();
+
+			$this->load->view('pages/dashboard/rumah-sakit/rumah-sakit', $data);
+		}else{
+			$data['data'] = _getwhere('rumah_sakit',['created_by' => auth('id')])->result_array();
+			$this->load->view('pages/dashboard/rumah-sakit/rumah-sakit-admin-rs', $data);
+		}
 	}
 
 	public function register(){

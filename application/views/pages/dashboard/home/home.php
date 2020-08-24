@@ -20,11 +20,12 @@
               </div>
             </div>
 
-            <div class="alert <?= $terdaftar > 0 ? 'alert-success' : 'alert-info' ?>">
+            <?php if(!$has){ ?>
+            <div class="alert <?= ($terdaftar > 0 ? 'alert-success' : 'alert-info')?>">
               <?= $terdaftar > 0 ? 'Pendaftaran rumah sakit Anda sedang diproses.' : 'Ingin mendaftarkan klinik atau rumah sakit Anda?' ?>
 
               <a href="jscript:void(0)" class="<?= $terdaftar > 0 ? 'd-none' : '' ?>" onclick="_new()"> <b class="pull-right">Daftar Disini</b> </a>
-            </div>
+            </div> <?php }else{ } ?>
 
             <div class="row row-cards">
               <div class="col-6 col-sm-4">
