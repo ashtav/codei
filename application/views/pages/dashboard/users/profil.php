@@ -76,6 +76,22 @@
 
                 </div>
               </div>
+
+              <div class="col-lg-4">
+                <div class="card p-2">
+
+                  <img src="<?= url('assets/images/profile.png') ?>" alt="" id="img" style="border-radius: 3px">
+
+                  <div class="btn-group">
+                    <button onclick="$('#file').click()" class="btn btn-outline-primary mt-2"> Edit Foto </button>
+                    <button onclick="_saveFoto()" class="btn btn-outline-primary mt-2"> Simpan </button>
+                  </div>
+
+                  <input type="file" id="file" class="d-none" onchange="fn.onFile(this, 'img')">
+
+                </div>
+              </div>
+
             </div>
 
           </div>

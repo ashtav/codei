@@ -9,7 +9,7 @@
   // }
 
   function _getAuth(){
-    $data = _getjoin('users|user_details','id|user_id')->where(['id' => auth('id')])->get()->row_array();
+    $data = _getjoin('users|user_details','id|user_id','*','users')->where(['users.id' => auth('id')])->get()->row_array();
     unset($data['password']);
     return $data;
   }
@@ -21,13 +21,13 @@
   }
 
   // _getjoin('users','user_details','id|user_id')->get()->result_array();
-  function _getjoin($table, $join, $select = '*'){
+  function _getjoin($table, $join, $select = '*', $_){
     $ci = &get_instance();
 
     $t = explode('|',$table);
     $j = explode('|',$join);
 
-    return $ci->db->select($select)->from($t[0])->where('deleted_at', null)
+    return $ci->db->select($select)->from($t[0])->where($_.'.deleted_at', null)
       ->join($t[1], $t[0].'.'.$j[0].' = '.$t[1].'.'.$j[1]);
   }
 

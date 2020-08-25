@@ -22,6 +22,7 @@ class RumahSakit extends CI_Controller {
 			$rs = _getwhere('rumah_sakit', ['created_by' => auth('id')])->row_array();
 
 			$data['dokter'] = _getWhere('dokter', ['created_by' => $rs['id']])->result_array();
+			$data['lab'] = _getjoin('laboratorium|dokter','id_dokter|id','laboratorium.*, dokter.nama as dn','laboratorium')->where(['laboratorium.created_by' => $rs['id']])->get()->result_array();
 			$data['data'] = _getwhere('rumah_sakit',['created_by' => auth('id')])->result_array();
 			$this->load->view('pages/dashboard/rumah-sakit/rumah-sakit-admin-rs', $data);
 		}

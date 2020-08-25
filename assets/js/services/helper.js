@@ -176,6 +176,13 @@ class Fn{
                         break;
                 }
             })
+
+            mod.find('select').each(function(){ // loop setiap select
+                let nameAttr = $(this).attr('name')
+                if(params.data[nameAttr] != null){
+                    $(this).val(params.data[nameAttr])
+                }
+            });
         }else{
             mod.find('form')[0].reset()
         }
