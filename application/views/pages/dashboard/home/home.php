@@ -32,11 +32,10 @@
                 <div class="card">
                   <div class="card-body p-3 text-center">
                     <div class="text-right text-green">
-                      6%
-                      <i class="fe fe-chevron-up"></i>
+                      <i class="fe fe-users"></i>
                     </div>
-                    <div class="h1 m-0">43</div>
-                    <div class="text-muted mb-4">New Tickets</div>
+                    <div class="h1 m-0">5</div>
+                    <div class="text-muted mb-4">Dokter</div>
                   </div>
                 </div>
               </div>
@@ -44,11 +43,10 @@
                 <div class="card">
                   <div class="card-body p-3 text-center">
                     <div class="text-right text-red">
-                      -3%
-                      <i class="fe fe-chevron-down"></i>
+                      <i class="fe fe-activity"></i>
                     </div>
                     <div class="h1 m-0">17</div>
-                    <div class="text-muted mb-4">Closed Today</div>
+                    <div class="text-muted mb-4">Pemeriksaan</div>
                   </div>
                 </div>
               </div>

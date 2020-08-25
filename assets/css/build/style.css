@@ -36,6 +36,14 @@
         .popup-confirmation .popup-content .control button:hover {
           background-color: #ddd; }
 
+.borderless li {
+  border-left: none;
+  border-right: none; }
+  .borderless li:first-child {
+    border-top: none; }
+  .borderless li:last-child {
+    border-bottom: none; }
+
 .no-outline:focus, .no-outline:active:focus, .no-outline.active:focus {
   outline: none !important;
   box-shadow: none !important; }

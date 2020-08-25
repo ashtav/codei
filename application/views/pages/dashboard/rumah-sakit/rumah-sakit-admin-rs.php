@@ -79,8 +79,74 @@
                       <a href="jscript:void(0)" onclick="_newDokter()" class="btn btn-outline-primary">Tambah</a>
                     </div>
                   </div>
-                  <div class="card-body">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Architecto ullam laborum autem ipsam officia? Esse, quo eos facere veritatis sint, incidunt officia molestiae consequatur dolor officiis perspiciatis omnis asperiores quas!
+                  <div class="card-body p-0">
+                      <ul class="list-group borderless">
+                        
+                        <?php foreach ($dokter as $key => $value) {
+                          
+                        ?>
+
+                        <li class="list-group-item">
+
+                          <div class="btn-group pull-right">
+                            <button class="btn btn-primary btn-sm" onclick='_editDokter(<?= json_encode($value) ?>)'> <i class="fe fe-edit-2"></i> </button>
+                            <button class="btn btn-danger btn-sm" onclick="_deleteDokter(<?= $value['id'] ?>)"> <i class="fe fe-trash"></i> </button>
+                          </div>
+
+                          <div class="media">
+                            <span class="avatar avatar-xxl mr-5" style="min-width: 80px; width: 80px; height: 80px; min-height: 80px; background-image: url(<?= url('images/'.$value['foto']) ?>)"></span>
+                            <div class="media-body">
+                              <h4 class="m-0"><?= $value['nama'] ?></h4>
+                              <p class="text-muted mb-0"><?= $value['spesialis'] ?></p>
+                              <p class="text-muted mb-0"><?= $value['jadwal_hari'] ?></p>
+                              <p class="text-muted mb-0"><?= $value['jam_buka'].' - '.$value['jam_tutup'] ?></p>
+                            </div>
+                          </div>
+                        </li>
+
+                        <?php } ?>
+
+                      </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">Daftar Laboratorium</h3>
+                    <div class="card-options">
+                      <a href="jscript:void(0)" onclick="_newDokter()" class="btn btn-outline-primary">Tambah</a>
+                    </div>
+                  </div>
+                  <div class="card-body p-0">
+                      <ul class="list-group borderless">
+                        
+                        <?php foreach ($dokter as $key => $value) {
+                          
+                        ?>
+
+                        <li class="list-group-item">
+
+                          <div class="btn-group pull-right">
+                            <button class="btn btn-primary btn-sm" onclick='_editDokter(<?= json_encode($value) ?>)'> <i class="fe fe-edit-2"></i> </button>
+                            <button class="btn btn-danger btn-sm" onclick="_deleteDokter(<?= $value['id'] ?>)"> <i class="fe fe-trash"></i> </button>
+                          </div>
+
+                          <div class="media">
+                            <span class="avatar avatar-xxl mr-5" style="min-width: 80px; width: 80px; height: 80px; min-height: 80px; background-image: url(<?= url('images/'.$value['foto']) ?>)"></span>
+                            <div class="media-body">
+                              <h4 class="m-0"><?= $value['nama'] ?></h4>
+                              <p class="text-muted mb-0"><?= $value['spesialis'] ?></p>
+                              <p class="text-muted mb-0"><?= $value['jadwal_hari'] ?></p>
+                              <p class="text-muted mb-0"><?= $value['jam_buka'].' - '.$value['jam_tutup'] ?></p>
+                            </div>
+                          </div>
+                        </li>
+
+                        <?php } ?>
+
+                      </ul>
                   </div>
                 </div>
               </div>
@@ -102,16 +168,53 @@
 
     <script>
 
+      $(document).ready(function(){
+        $('#form-dokter').find('input').not('input[type=file],input[type=checkbox]').prop('required',true)
+      })
+
       function _newDokter(){
         fn.modal({
           id: 'form-dokter',
           title: 'Tambahkan Dokter',
           submit: (e) => {
             fn.request({
-                url: 'rumahsakit/update/'+data.id,
+                url: 'dokter/store/',
                 data: new FormData($(e).find('form')[0]),
                 spiner:  $(e).find('button[type=submit]'),
-                success: () => {
+                success: (res) => {
+                    toast('Berhasil ditambahkan')
+                    reload()
+                }
+            })
+
+            return false
+          }
+        })
+      }
+
+      function _editDokter(data){
+        fn.modal({
+          id: 'form-dokter',
+          title: 'Edit Dokter',
+          data: data,
+          script: (e) => {
+            $(e).find('input[type=checkbox]').prop('checked',false)
+
+            $(e).find('img').attr('src', BASEURL+'/images/'+data.foto) // set foto
+            $(e).find('input[type=checkbox]').each(function(){
+              let hari = data.jadwal_hari.split(',')
+
+              if(hari.indexOf($(this).val()) > -1){
+                $(this).prop('checked',true)
+              }
+            })
+          },
+          submit: (e) => {
+            fn.request({
+                url: 'dokter/update/'+data.id,
+                data: new FormData($(e).find('form')[0]),
+                spiner:  $(e).find('button[type=submit]'),
+                success: (res) => {
                     toast('Berhasil diperbarui')
                     reload()
                 }
@@ -122,23 +225,40 @@
         })
       }
 
+      function _deleteDokter(id){
+        fn.confirm({
+            message: 'Yakin ingin menghapus data dokter ini?',
+            textConfirm: 'Ya',
+            confirm: (e) => {
+                fn.request({
+                    url: 'dokter/delete/'+id,
+                    spiner: e,
+                    success: () => {
+                        toast('Berhasil dihapus')
+                        reload()
+                    }
+                })
+            }
+        })
+      }
 
-        function _delete(id){
-          fn.confirm({
-              message: 'Yakin ingin menghapus rumah sakit ini?',
-              textConfirm: 'Ya',
-              confirm: (e) => {
-                  fn.request({
-                      url: 'rumahsakit/delete/'+id,
-                      spiner: e,
-                      success: () => {
-                          toast('Berhasil dihapus')
-                          reload()
-                      }
-                  })
-              }
-          })
-        }
+
+      function _delete(id){
+        fn.confirm({
+            message: 'Yakin ingin menghapus rumah sakit ini?',
+            textConfirm: 'Ya',
+            confirm: (e) => {
+                fn.request({
+                    url: 'rumahsakit/delete/'+id,
+                    spiner: e,
+                    success: () => {
+                        toast('Berhasil dihapus')
+                        reload()
+                    }
+                })
+            }
+        })
+      }
 
         function _edit(data){
           fn.modal({

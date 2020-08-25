@@ -44,6 +44,21 @@
   }
 }
 
+.borderless{
+  li{
+    border-left: none;
+    border-right: none;
+
+    &:first-child{
+      border-top: none;
+    }
+
+    &:last-child{
+      border-bottom: none;
+    }
+  }
+}
+
 .no-outline:focus, .no-outline:active:focus, .no-outline.active:focus{
     outline:none !important;
     box-shadow:none !important;

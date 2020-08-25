@@ -54,6 +54,33 @@
     $ci->db->where($where)->delete($table);
   }
 
+  // $filename = putfile('file', 'images')
+  function putfile($input, $dir){
+    $ci = &get_instance();
+		if( empty($_FILES[$input]['name']) ){
+			return null;
+		}else{
+			$filename = round(microtime(true)).'.jpg';
+			$config['file_name'] 						= $filename;
+			$config['upload_path']          = $dir;
+			$config['allowed_types']        = '*';
+			$config['max_size']             = 50000;
+			$config['max_width']            = 50000;
+			$config['max_height']           = 50000;
+
+			$ci->load->library('upload', $config);
+			$ci->upload->do_upload($input);
+
+			return $filename;
+		}
+  }
+  
+  function removeFile($url){
+    if(file_exists($url)){
+			unlink($url);
+		}
+  }
+
 
 
   // ==========
@@ -232,25 +259,7 @@
 		return $ci->session->userdata($v);
 	}
 
-  function putfile($input, $dir){
-    $ci = &get_instance();
-		if( empty($_FILES[$input]['name']) ){
-			return false;
-		}else{
-			$filename = round(microtime(true)).'.jpg';
-			$config['file_name'] 						= $filename;
-			$config['upload_path']          = $dir;
-			$config['allowed_types']        = '*';
-			$config['max_size']             = 50000;
-			$config['max_width']            = 50000;
-			$config['max_height']           = 50000;
-
-			$ci->load->library('upload', $config);
-			$ci->upload->do_upload($input);
-
-			return $filename;
-		}
-	}
+  
 
   
 

@@ -167,8 +167,10 @@ class Fn{
                         break;
                 
                     default:
-                        if(params.data[nameAttr] != null){
-                            $(this).val(params.data[nameAttr])
+                        if(type != 'file'){
+                            if(params.data[nameAttr] != null){
+                                $(this).val(params.data[nameAttr])
+                            }
                         }
 
                         break;
@@ -181,9 +183,22 @@ class Fn{
         mod.find('form').submit(params.submit.bind(params, mod))
 
         if(params.script != null){
-            params.script()
+            params.script(mod)
         }
 
+    }
+
+    onFile(input, id){
+
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+              $('#'+id).attr('src', e.target.result);
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
     }
 
 

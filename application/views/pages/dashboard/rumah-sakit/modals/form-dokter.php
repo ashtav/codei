@@ -9,24 +9,37 @@
       <form>
         <div class="modal-body">
 
-          <div class="form-group">
-            <label class="form-label">Nama Lengkap</label>
-            <div class="input-icon">
-              <input type="text" class="form-control" placeholder="Nama lengkap" name="nama" autocomplete="off">
+          <div class="row">
+            <div class="col-md-4">
+              <img src="<?= url('assets/images/profile.png') ?>" alt="" id="img" style="border-radius: 3px">
+              <div class="mt-2">
+                <input type="file" name="file" class="d-none" id="file" onchange="fn.onFile(this, 'img')">
+                <button type="button" onclick="$('#file').click()" class="btn btn-outline-primary btn-block">Pilih Foto</button>
+              </div>
             </div>
-          </div>
+            <div class="col-md-8">
 
-          <div class="form-group">
-            <label class="form-label">Spesialis</label>
-            <div class="input-icon">
-              <input type="text" class="form-control" placeholder="Spesialis" name="spesialis" autocomplete="off">
-            </div>
-          </div>
+              <div class="form-group">
+                <label class="form-label">Nama Lengkap</label>
+                <div class="input-icon">
+                  <input type="text" class="form-control" placeholder="Nama lengkap" name="nama" autocomplete="off">
+                </div>
+              </div>
 
-          <div class="form-group">
-            <label class="form-label">No. Telepon</label>
-            <div class="input-icon">
-              <input type="tel" class="form-control" placeholder="No. telepon" name="telepon" autocomplete="off">
+              <div class="form-group">
+                <label class="form-label">Spesialis</label>
+                <div class="input-icon">
+                  <input type="text" class="form-control" placeholder="Spesialis" name="spesialis" autocomplete="off">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">No. Telepon</label>
+                <div class="input-icon">
+                  <input type="tel" class="form-control" placeholder="No. telepon" name="telepon" autocomplete="off">
+                </div>
+              </div>
+            
             </div>
           </div>
 
@@ -39,7 +52,7 @@
                 for ($i=0; $i < count($checks); $i++) { 
               ?>
                 <label class="custom-control custom-checkbox custom-control-inline">
-                  <input type="checkbox" class="custom-control-input" name="hari" value="<?= $checks[$i] ?>" checked>
+                  <input type="checkbox" class="custom-control-input" name="jadwal_hari[]" value="<?= $checks[$i] ?>" checked>
                   <span class="custom-control-label"><?= ucwords($checks[$i]) ?></span>
                 </label>
               <?php } ?>
