@@ -28,27 +28,39 @@
             </div> <?php }else{ } ?>
 
             <div class="row row-cards">
+              
+              <?php if(auth('role') == 'admin_rs'){  ?>
               <div class="col-6 col-sm-4">
-                <div class="card">
-                  <div class="card-body p-3 text-center">
-                    <div class="text-right text-green">
-                      <i class="fe fe-users"></i>
+              
+                <a href="dashboard/rumah-sakit">
+                  <div class="card">
+                    <div class="card-body p-3 text-center">
+                      <div class="text-right text-green">
+                        <i class="fe fe-users"></i>
+                      </div>
+                      <div class="h1 m-0"><?= $dokter ?></div>
+                      <div class="text-muted mb-4">Dokter</div>
                     </div>
-                    <div class="h1 m-0">5</div>
-                    <div class="text-muted mb-4">Dokter</div>
                   </div>
-                </div>
-              </div>
+                </a>
+
+              </div> <?php } ?>
+
               <div class="col-6 col-sm-4">
-                <div class="card">
-                  <div class="card-body p-3 text-center">
-                    <div class="text-right text-red">
-                      <i class="fe fe-activity"></i>
+
+                <a href="dashboard/pemeriksaan">
+                  <div class="card">
+                    <div class="card-body p-3 text-center">
+                      <div class="text-right text-red">
+                        <i class="fe fe-activity"></i>
+                      </div>
+                      <div class="h1 m-0">17</div>
+                      <div class="text-muted mb-4">Pemeriksaan</div>
                     </div>
-                    <div class="h1 m-0">17</div>
-                    <div class="text-muted mb-4">Pemeriksaan</div>
                   </div>
-                </div>
+                </a>
+
+
               </div>
             </div>
 

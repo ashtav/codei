@@ -57,4 +57,9 @@ class Dokter extends CI_Controller {
 		removeFile('images/'.$dokter['foto']);
 	}
 
+	public function list_dokter($id){
+		$dokter = _getwhere('dokter', ['created_by' => $id])->result_array();
+		echo json_encode($dokter);
+	}
+
 }

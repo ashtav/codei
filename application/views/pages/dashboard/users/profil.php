@@ -80,14 +80,16 @@
               <div class="col-lg-4">
                 <div class="card p-2">
 
-                  <img src="<?= url('assets/images/profile.png') ?>" alt="" id="img" style="border-radius: 3px">
+                  <img src="<?= $auth['foto'] == null ? url('assets/images/profile.png') : url('images/'.$auth['foto']) ?>" alt="" id="img" style="border-radius: 3px">
 
                   <div class="btn-group">
                     <button onclick="$('#file').click()" class="btn btn-outline-primary mt-2"> Edit Foto </button>
-                    <button onclick="_saveFoto()" class="btn btn-outline-primary mt-2"> Simpan </button>
+                    <button onclick="$('#form').submit()" id="submit" class="btn btn-outline-primary mt-2"> Simpan </button>
                   </div>
 
-                  <input type="file" id="file" class="d-none" onchange="fn.onFile(this, 'img')">
+                  <form onsubmit="return _saveFoto(this)" id="form" class="d-none" >
+                    <input type="file" id="file" name="file" onchange="fn.onFile(this, 'img')">
+                  </form>
 
                 </div>
               </div>
@@ -156,6 +158,20 @@
               return false
             }
           })
+        }
+
+        function _saveFoto(f){
+          fn.request({
+            url: 'users/update_foto',
+            data: new FormData($(f)[0]),
+            spiner:  $('#submit'),
+            success: () => {
+                toast('Berhasil diperbarui')
+                reload()
+            }
+          })
+
+          return false
         }
 
     </script>

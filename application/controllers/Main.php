@@ -15,7 +15,7 @@ class Main extends CI_Controller {
 		$email = strtolower(post('email'));
 		$password = post('password');
 		
-		$auth = _getjoin('users|user_details','id|user_id')->where(['email' => $email])->get()->row_array();
+		$auth = _getjoin('users|user_details','id|user_id','*','users')->where(['email' => $email])->get()->row_array();
 		
 		if(password_verify($password, $auth['password'])){
 			if($auth['status'] == 'waiting'){

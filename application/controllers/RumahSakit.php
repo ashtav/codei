@@ -12,9 +12,11 @@ class RumahSakit extends CI_Controller {
 	}
 
 	public function index(){
+		$data['auth'] = _getAuth();
+
 		if(auth('role') == 'admin'){
-			$data['waiting'] = _getjoin('user_details|rumah_sakit','user_id|created_by','*,user_details.nama as un')->where(['status' => 'waiting'])->get()->result_array();
-			$data['data'] = _getjoin('user_details|rumah_sakit','user_id|created_by','*,user_details.nama as un')->where(['status' => 'active'])->get()->result_array();
+			$data['waiting'] = _getjoin('user_details|rumah_sakit','user_id|created_by','*,user_details.nama as un','rumah_sakit')->where(['status' => 'waiting'])->get()->result_array();
+			$data['data'] = _getjoin('user_details|rumah_sakit','user_id|created_by','*,user_details.nama as un','rumah_sakit')->where(['status' => 'active'])->get()->result_array();
 			$data['jumlah_rs'] = _getwhere('rumah_sakit', ['status' => 'active'])->num_rows();
 
 			$this->load->view('pages/dashboard/rumah-sakit/rumah-sakit', $data);

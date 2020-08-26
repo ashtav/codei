@@ -3,10 +3,10 @@
   // helper, created by ashta
 
   // _get('users')->result_array();
-  // function _get($table){
-  //   $ci = &get_instance();
-  //   return $ci->db->get($table);
-  // }
+  function _get($table){
+    $ci = &get_instance();
+    return $ci->db->where('deleted_at', null)->get($table);
+  }
 
   function _getAuth(){
     $data = _getjoin('users|user_details','id|user_id','*','users')->where(['users.id' => auth('id')])->get()->row_array();

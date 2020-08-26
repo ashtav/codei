@@ -17,17 +17,17 @@
         
         <div class="dropdown">
           <a href="#" class="nav-link pr-0 leading-none" data-toggle="dropdown">
-            <span class="avatar" style="background-image: url('./storage/images/')"></span>
+            <span class="avatar" style="background-image: url('<?= $auth['foto'] == null ? url('assets/images/profile.png') : url('images/'.$auth['foto']) ?>')"></span>
             <span class="ml-2 d-none d-lg-block">
-              <span class="text-default"><?= auth('nama') ?></span>
-              <small class="text-muted d-block mt-1"><?= auth('role') ?></small>
+              <span class="text-default"><?= $auth['nama'] ?></span>
+              <small class="text-muted d-block mt-1"><?= $auth['role'] ?></small>
             </span>
           </a>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
             <a class="dropdown-item" href="<?= url('dashboard/profil') ?>">
               <i class="dropdown-icon fe fe-user"></i> Profil
             </a>
-            <a class="dropdown-item" href="jscript:void(0)">
+            <a class="dropdown-item" href="jscript:void(0)" onclick="$('#form-about').modal('show')">
               <i class="dropdown-icon fe fe-info"></i> Tentang Aplikasi
             </a>
             <div class="dropdown-divider"></div>
@@ -62,7 +62,7 @@
               <a href="<?= url('dashboard') ?>" class="nav-link"><i class="fe fe-home"></i> <span class="d-none d-md-block">Beranda</span></a>
             </li>
 
-            <li class="nav-item <?= auth('role') != 'admin' ? 'd-none' : '' ?>">
+            <li class="nav-item <?= $auth['role'] != 'admin' ? 'd-none' : '' ?>">
               <a href="<?= url('/dashboard/users') ?>" class="nav-link"><i class="fe fe-users"></i> <span class="d-none d-md-block">Pengguna</span></a>
             </li>
 
@@ -91,3 +91,7 @@
     </div>
   </div>
 </div>
+
+<?php
+  $this->load->view('pages/dashboard/partials/tentang');
+?>

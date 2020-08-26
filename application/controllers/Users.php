@@ -12,8 +12,10 @@ class Users extends CI_Controller {
 	}
 
 	public function index(){
-		$data['waiting'] = _getjoin('users|user_details','id|user_id')->where(['status' => 'waiting'])->get()->result_array();
-		$data['data'] = _getjoin('users|user_details','id|user_id')->where(['status' => 'active'])->get()->result_array();
+		$data['auth'] = _getAuth();
+
+		$data['waiting'] = _getjoin('users|user_details','id|user_id','*','users')->where(['status' => 'waiting'])->get()->result_array();
+		$data['data'] = _getjoin('users|user_details','id|user_id','*','users')->where(['status' => 'active'])->get()->result_array();
 		$data['jumlah_user'] = _getwhere('users', ['status' => 'active'])->num_rows();
 		$this->load->view('pages/dashboard/users/users', $data);
 	}
@@ -62,6 +64,11 @@ class Users extends CI_Controller {
 		];
 
 		_update('users', ['id' => $id], $data);
+	}
+
+	public function update_foto(){
+		$filename = putfile('file', 'images');
+		_update('user_details', ['user_id' => auth('id')], ['foto' => $filename]);
 	}
 
 }
