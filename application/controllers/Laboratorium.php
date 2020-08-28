@@ -57,4 +57,9 @@ class Laboratorium extends CI_Controller {
 		removeFile('images/'.$dokter['foto']);
 	}
 
+	public function list_lab($id){
+		$lab = _getwhere('laboratorium', ['created_by' => $id])->result_array();
+		echo json_encode($lab);
+	}
+
 }

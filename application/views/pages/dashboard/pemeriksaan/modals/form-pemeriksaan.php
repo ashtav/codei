@@ -25,7 +25,7 @@
 
           <div class="form-group">
             <label class="custom-switch p-0">
-              <input type="checkbox" name="option" value="1" class="custom-switch-input" onclick="_switch(this)">
+              <input type="checkbox" name="jenis" value="1" class="custom-switch-input" onclick="_switch(this)">
               <span class="custom-switch-indicator"></span>
               <span class="custom-switch-description">Saya ingin cek laboratorium</span>
             </label>
@@ -57,7 +57,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Jadwal Waktu</label>
+            <label class="form-label">Waktu Yang Tersedia</label>
             <div class="row">
               <div class="col-6">
                 <input type="time" class="form-control" name="jam_buka" id="jb" autocomplete="off" disabled>

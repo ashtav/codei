@@ -103,7 +103,7 @@
 
     <script>
 
-        let listDokter = [] 
+        let listDokter = [], id_rumahsakit = 0
 
         function _new(){
           fn.modal({
@@ -111,12 +111,13 @@
             title: 'Form Pemeriksaan',
             submit: (e) => {
               fn.request({
-                  url: 'rumahsakit/update/'+data.id,
+                  url: 'pemeriksaan/store',
                   data: new FormData($(e).find('form')[0]),
                   spiner:  $(e).find('button[type=submit]'),
-                  success: () => {
-                      toast('Berhasil diperbarui')
-                      reload()
+                  success: (res) => {
+                      // toast('Berhasil dikirim')
+                      // reload()
+                      consl(res)
                   }
               })
 
@@ -127,8 +128,11 @@
 
         function _getDokter(e){
           let id = e.value
+          id_rumahsakit = id
 
           $('#hari').html('<span class="text-muted">Pilih dokter</span>')
+
+          _getLab()
 
           fn.request({
               url: 'dokter/list_dokter/'+id,
@@ -174,6 +178,26 @@
           }
         }
 
+        function _getLab(){
+
+          fn.request({
+            url: 'laboratorium/list_lab/'+id_rumahsakit,
+            method: 'get',
+            success: (res) => {
+                let data = JSON.parse(res)
+
+                $('#listLab').html('<option value="">Pilih Laboratorium</option>')
+
+                for (let i = 0; i < data.length; i++) {
+                  let lab = data[i]
+                  $('#listLab').append(
+                    '<option value='+lab.id+'>'+lab.nama_lab+'</option>'
+                  )
+                }
+            }
+          })
+        }
+
         function _switch(e){
           $('#lab').hide()
           $('#doc').show()
@@ -181,6 +205,8 @@
           if($(e).is(':checked')){
             $('#doc').hide()
             $('#lab').show()
+
+            // _getLab()
           }
         }
 

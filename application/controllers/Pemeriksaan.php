@@ -24,15 +24,18 @@ class Pemeriksaan extends CI_Controller {
 		$rs = _getwhere('rumah_sakit', ['created_by' => auth('id')])->row_array();
 
 		$data = [
-			'nama_lab' => ucwords(post('nama_lab')),
+			'id_rumah_sakit' => post('id_rumah_sakit'),
+			'jenis' => post('jenis'),
 			'id_dokter' => post('id_dokter'),
-			'jadwal_hari' => implode(',',post('jadwal_hari')),
-			'jam_buka' => post('jam_buka'),
-			'jam_tutup' => post('jam_tutup'),
-			'created_by' => $rs['id']
+			'id_lab' => post('id_lab'),
+			'jadwal_hari' => post('jadwal_hari'),
+			'keterangan' => '',
+			'created_by' => auth('id')
 		];
+
+		echo json_encode($data);
 		
-		$this->db->insert('laboratorium', $data);
+		// $this->db->insert('laboratorium', $data);
 	}
 
 	public function update($id){
