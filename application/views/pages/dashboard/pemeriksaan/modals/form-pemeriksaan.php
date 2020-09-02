@@ -12,7 +12,7 @@
           <div class="form-group">
             <label class="form-label">Pilih Rumah Sakit</label>
             <div class="input-icon">
-              <select name="id_rumah_sakit" class="form-control" onchange="_getDokter(this)">
+              <select name="id_rumahsakit" class="form-control" onchange="_getDokter(this)" required>
                 <option value="">Pilih Rumah Sakit</option>
                 <?php
                   foreach ($rumahsakit as $key => $value) {

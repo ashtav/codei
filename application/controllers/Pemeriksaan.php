@@ -16,7 +16,7 @@ class Pemeriksaan extends CI_Controller {
 
 		$data['rumahsakit'] = _get('rumah_sakit')->result_array();
 
-		$data['data'] = [];
+		$data['data'] = $this->db->select('*,rumah_sakit.nama as rsn,pemeriksaan.jadwal_hari as jh')->from('pemeriksaan')->where('pemeriksaan.deleted_at', null)->join('rumah_sakit', 'rumah_sakit.id = pemeriksaan.id_rumahsakit')->join('dokter', 'dokter.id = pemeriksaan.id_dokter')->get()->result_array();
 		$this->load->view('pages/dashboard/pemeriksaan/pemeriksaan', $data);
 	}
 
@@ -24,18 +24,16 @@ class Pemeriksaan extends CI_Controller {
 		$rs = _getwhere('rumah_sakit', ['created_by' => auth('id')])->row_array();
 
 		$data = [
-			'id_rumah_sakit' => post('id_rumah_sakit'),
-			'jenis' => post('jenis'),
+			'id_rumahsakit' => post('id_rumahsakit'),
+			'jenis' => post('jenis') == 1 ? 'laboratorium' : 'dokter',
 			'id_dokter' => post('id_dokter'),
 			'id_lab' => post('id_lab'),
 			'jadwal_hari' => post('jadwal_hari'),
 			'keterangan' => '',
 			'created_by' => auth('id')
 		];
-
-		echo json_encode($data);
 		
-		// $this->db->insert('laboratorium', $data);
+		$this->db->insert('pemeriksaan', $data);
 	}
 
 	public function update($id){

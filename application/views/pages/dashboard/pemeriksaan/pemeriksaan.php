@@ -31,18 +31,18 @@
             </div>
 
             <div class="table-responsive">
-              <?php if(!$data){ _empty(); }else{ ?>
+              <?php if(!$data){  }else{ ?>
               <div class="card">
                 <table class="table table-striped m-0">
                   <thead>
                     <tr>
                       <th class="text-center">No</th>
                       <th>Nama Rumah Sakit</th>
-                      <th>Alamat</th>
-                      <th>No. Telepon</th>
-                      <th>Email</th>
-                      <th>Waktu Operasional</th>
-                      <th>Didaftarkan Oleh</th>
+                      <th>Jenis Pemeriksaan</th>
+                      <th>Dokter</th>
+                      <th>Laboratorium</th>
+                      <th>Hari</th>
+                      <th>Keterangan</th>
                       <th class="text-center"> <i class="fe fe-settings"></i> </th>
                     </tr>
                   </thead>
@@ -52,21 +52,25 @@
                       foreach ($data as $key => $value) { $no++;
                         // $x = ($page - 1) * 5 + $no;
 
-                        $img = './assets/images/img-placeholder.jpg';
-                        $tl = _date($value['tanggal_lahir']);
+                        // $img = './assets/images/img-placeholder.jpg';
+                        // $tl = _date($value['tanggal_lahir']);
+
+                        // echo json_encode($value);
+
+                        $lab = _getwhere('laboratorium', ['id' => $value['id_lab']])->row_array() ?? ['nama_lab' => '-'];
 
                         echo "
                           <tr>
                             <th class='text-center'>$no</th>
-                            <th>$value[nama]</th>
-                            <th>$value[alamat]</th>
-                            <th>$value[telepon]</th>
-                            <th>$value[email]</th>
-                            <th>$value[jam_buka] - $value[jam_tutup]</th>
-                            <th>$value[un]</th>
+                            <th>$value[rsn]</th>
+                            <th>$value[jenis]</th>
+                            <th>".($value['jenis'] == 'dokter' ? $value['nama'] : '-')."</th>
+                            <th>$lab[nama_lab]</th>
+                            <th>$value[jh]</th>
+                            <th>$value[keterangan]</th>
+                            
                             <th class='text-center'>
                               <div class='btn-group'>
-                                <button type='button' class='btn btn-sm btn-primary' onclick='_edit(".json_encode($value).")'> <i class='fe fe-edit-2'></i> </button>
                                 <button type='button' class='btn btn-sm btn-danger' onclick='_delete($value[id])'> <i class='fe fe-trash'></i> </button>
                               </div>
                             </th>
@@ -115,9 +119,8 @@
                   data: new FormData($(e).find('form')[0]),
                   spiner:  $(e).find('button[type=submit]'),
                   success: (res) => {
-                      // toast('Berhasil dikirim')
-                      // reload()
-                      consl(res)
+                      toast('Berhasil dikirim')
+                      reload()
                   }
               })
 
