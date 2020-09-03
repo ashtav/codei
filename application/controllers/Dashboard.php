@@ -15,6 +15,7 @@ class Dashboard extends CI_Controller {
 		$data['auth'] = _getAuth();
 		$data['terdaftar'] = _getwhere('rumah_sakit', ['created_by' => auth('id'), 'status' => 'waiting'])->num_rows();
 		$data['has'] = _getwhere('rumah_sakit', ['created_by' => auth('id'), 'status' => 'active'])->num_rows() == 1;
+		$data['jmlpemeriksaan'] = _getWhere('pemeriksaan',['created_by' => auth('id')])->num_rows();
 
 		if(auth('role') == 'admin_rs'){
 			$rs = _getwhere('rumah_sakit', ['created_by' => auth('id')])->row_array();

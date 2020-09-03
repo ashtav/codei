@@ -61,6 +61,7 @@ $route['dashboard'] = 'dashboard/index';
 $route['dashboard/users'] = 'users/index';
 $route['dashboard/rumah-sakit'] = 'rumahsakit/index';
 $route['dashboard/pemeriksaan'] = 'pemeriksaan/index';
+$route['dashboard/pemberitahuan'] = 'pemberitahuan/index';
 
 $route['dashboard/profil'] = 'users/profil';
 

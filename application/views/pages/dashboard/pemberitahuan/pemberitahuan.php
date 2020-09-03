@@ -14,18 +14,8 @@
             <div class="row">
               <div class="col-6">
                 <div class="my-5">
-                  <h3 class="m-0"> <a href="./">Pemeriksaan</a></h3>
-                  Riwayat Pemeriksaan (<?= $jml ?>)
-                </div>
-              </div>
-              <div class="col-6">
-                <div class="form-group pull-right my-5">
-                  <div class="btn-group">
-                    <button type="button" onclick="_new()" class="btn btn-primary btn-block"> <i class="fe fe-calendar"></i> Request Jadwal </button>
-                  </div>
-                  <div class="btn-group">
-                    <button type="button" onclick="_new()" class="btn btn-primary btn-block"> <i class="fe fe-plus"></i> Buat Pemeriksaan </button>
-                  </div>
+                  <h3 class="m-0"> <a href="./">Pemberitahuan</a></h3>
+                  Jumlah Pemberitahuan
                 </div>
               </div>
             </div>
@@ -37,7 +27,6 @@
                   <thead>
                     <tr>
                       <th class="text-center">No</th>
-                      <th>Nama Rumah Sakit</th>
                       <th>Jenis Pemeriksaan</th>
                       <th>Dokter</th>
                       <th>Laboratorium</th>
@@ -63,7 +52,6 @@
                         echo "
                           <tr>
                             <th class='text-center'>$no</th>
-                            <th>$value[rsn]</th>
                             <th>$value[jenis]</th>
                             <th>".($value['jenis'] == 'dokter' ? $value['nama'] : '-')."</th>
                             <th>$lab[nama_lab]</th>
@@ -72,8 +60,8 @@
                             <th>$value[keterangan]</th>
                             
                             <th class='text-center'>
-                              <div class='btn-group'>
-                                <button type='button' class='btn btn-sm btn-success' onclick='_edit($value[idp])'> <i class='fe fe-edit-2'></i> </button>
+                              <div class='btn-group' style='".($value['sp'] == 'diterima' ? 'display:none' : 'block')."'>
+                                <button type='button' class='btn btn-sm btn-success' onclick='_accept($value[idp])'> <i class='fe fe-check'></i> </button>
                                 <button type='button' class='btn btn-sm btn-danger' onclick='_delete($value[idp])'> <i class='fe fe-trash'></i> </button>
                               </div>
                             </th>
@@ -104,25 +92,24 @@
 
     <?php
       $this->load->view('partials/script');
-      $this->load->view('pages/dashboard/pemeriksaan/modals/form-pemeriksaan');
-
+      $this->load->view('pages/dashboard/pemberitahuan/modals/form-accept');
     ?>
 
     <script>
 
         let listDokter = [], id_rumahsakit = 0
 
-        function _new(){
+        function _accept(id){
           fn.modal({
-            id: 'form-pemeriksaan',
-            title: 'Form Pemeriksaan',
+            id: 'form-accept',
+            title: 'Inputkan Keterangan',
             submit: (e) => {
               fn.request({
-                  url: 'pemeriksaan/store',
+                  url: 'pemberitahuan/accept/'+id,
                   data: new FormData($(e).find('form')[0]),
                   spiner:  $(e).find('button[type=submit]'),
                   success: (res) => {
-                      toast('Berhasil dikirim')
+                      toast('Berhasil diterima')
                       reload()
                   }
               })

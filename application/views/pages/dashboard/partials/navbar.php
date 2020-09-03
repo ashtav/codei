@@ -71,13 +71,13 @@
             </li>
 
             <li class="nav-item">
-              <a href="<?= url('/dashboard/rumah-sakit') ?>" class="nav-link"><i class="fe fe-bell"></i> <span class="d-none d-md-block">Pemberitahuan</span></a>
+              <a href="<?= url('/dashboard/pemberitahuan') ?>" class="nav-link"><i class="fe fe-bell"></i> <span class="d-none d-md-block">Pemberitahuan</span></a>
             </li>
 
             
 
             <!-- <li class="nav-item dropdown">
-              <a href="<?= url('pemberitahuan') ?>" class="nav-link"><i class="fe fe-bell"></i> <span class="d-none d-md-block">Pemberitahuan</span> <span class="tag tag-red ml-2">5</span> </a>
+              <a href="<?= url('/dashboard/pemberitahuan') ?>" class="nav-link"><i class="fe fe-bell"></i> <span class="d-none d-md-block">Pemberitahuan</span> <span class="tag tag-red ml-2">5</span> </a>
             </li> -->
           
             <li class="nav-item dropdown">

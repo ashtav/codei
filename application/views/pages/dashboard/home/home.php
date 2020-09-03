@@ -54,7 +54,7 @@
                       <div class="text-right text-red">
                         <i class="fe fe-activity"></i>
                       </div>
-                      <div class="h1 m-0">17</div>
+                      <div class="h1 m-0"><?= $jmlpemeriksaan ?></div>
                       <div class="text-muted mb-4">Pemeriksaan</div>
                     </div>
                   </div>
