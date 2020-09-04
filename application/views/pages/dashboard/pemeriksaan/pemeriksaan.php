@@ -21,9 +21,9 @@
               <div class="col-6">
                 <div class="form-group pull-right my-5">
                   <div class="btn-group">
-                    <button type="button" onclick="_new()" class="btn btn-primary btn-block"> <i class="fe fe-calendar"></i> Request Jadwal </button>
+                    <button type="button" onclick="_request()" class="btn btn-primary btn-block"> <i class="fe fe-calendar"></i> Request Jadwal </button>
                   </div>
-                  <div class="btn-group">
+                  <div class="btn-group ml-2">
                     <button type="button" onclick="_new()" class="btn btn-primary btn-block"> <i class="fe fe-plus"></i> Buat Pemeriksaan </button>
                   </div>
                 </div>
@@ -72,7 +72,7 @@
                             <th>$value[keterangan]</th>
                             
                             <th class='text-center'>
-                              <div class='btn-group'>
+                              <div class='btn-group' style='".($value['sp'] == 'diterima' ? 'display:none' : 'block')."'>
                                 <button type='button' class='btn btn-sm btn-success' onclick='_edit($value[idp])'> <i class='fe fe-edit-2'></i> </button>
                                 <button type='button' class='btn btn-sm btn-danger' onclick='_delete($value[idp])'> <i class='fe fe-trash'></i> </button>
                               </div>
@@ -116,6 +116,49 @@
           fn.modal({
             id: 'form-pemeriksaan',
             title: 'Form Pemeriksaan',
+            script: () => {
+              $('#hari').html('<span class="text-muted">Pilih rumah sakit</span>')
+              $('#jb,#jt').prop('disabled', true)
+            },
+            submit: (e) => {
+              fn.request({
+                  url: 'pemeriksaan/store',
+                  data: new FormData($(e).find('form')[0]),
+                  spiner:  $(e).find('button[type=submit]'),
+                  success: (res) => {
+                      toast('Berhasil dikirim')
+                      reload()
+                  }
+              })
+
+              return false
+            }
+          })
+        }
+
+        function _request(){
+          fn.modal({
+            id: 'form-pemeriksaan',
+            title: 'Form Permohonan Jadwal',
+            script: () => {
+              $('#jb,#jt').prop('disabled', false)
+              
+              $('#hari').html('')
+
+              let jadwal = ['senin','selasa','rabu','kamis','jumat','sabtu','minggu']
+              for (let i = 0; i < jadwal.length; i++) {
+                let j = jadwal[i]
+                
+                $('#hari').append(
+                  `
+                    <label class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" class="custom-control-input" name="jadwal_hari" value="`+j+`">
+                      <span class="custom-control-label">`+fn.ucwords(j)+`</span>
+                    </label>
+                  `
+                )
+              }
+            },
             submit: (e) => {
               fn.request({
                   url: 'pemeriksaan/store',
@@ -136,7 +179,7 @@
           let id = e.value
           id_rumahsakit = id
 
-          $('#hari').html('<span class="text-muted">Pilih dokter</span>')
+          $('#hari').html('<span class="text-muted" id="pilih">Pilih dokter</span>')
 
           _getLab()
 
@@ -208,10 +251,13 @@
           $('#lab').hide()
           $('#doc').show()
 
+          $('#pilih').html('Pilih dokter')
+
           if($(e).is(':checked')){
             $('#doc').hide()
             $('#lab').show()
 
+            $('#pilih').html('Pilih laboratorium')
             // _getLab()
           }
         }

@@ -52,12 +52,12 @@
           <div class="form-group">
             <div class="form-label">Pilih Hari</div>
             <div class="custom-controls-stacked" id="hari">
-              <span class="text-muted">Pilih rumah sakit dan dokter</span>
+              <span class="text-muted">Pilih rumah sakit</span>
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label">Waktu Yang Tersedia</label>
+            <label class="form-label">Waktu</label>
             <div class="row">
               <div class="col-6">
                 <input type="time" class="form-control" name="jam_buka" id="jb" autocomplete="off" disabled>
