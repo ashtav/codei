@@ -70,7 +70,7 @@
               <a href="<?= url('/dashboard/rumah-sakit') ?>" class="nav-link"><i class="fe fe-git-branch"></i> <span class="d-none d-md-block">Rumah Sakit</span></a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item <?= $auth['role'] != 'admin_rs' ? 'd-none' : '' ?>">
               <a href="<?= url('/dashboard/pemberitahuan') ?>" class="nav-link"><i class="fe fe-bell"></i> <span class="d-none d-md-block">Pemberitahuan</span></a>
             </li>
 

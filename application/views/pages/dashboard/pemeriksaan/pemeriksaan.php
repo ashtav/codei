@@ -42,6 +42,7 @@
                       <th>Dokter</th>
                       <th>Laboratorium</th>
                       <th>Hari</th>
+                      <th>Waktu</th>
                       <th>Status</th>
                       <th>Keterangan</th>
                       <th class="text-center"> <i class="fe fe-settings"></i> </th>
@@ -68,12 +69,12 @@
                             <th>".($value['jenis'] == 'dokter' ? $value['nama'] : '-')."</th>
                             <th>$lab[nama_lab]</th>
                             <th>$value[jh]</th>
+                            <th>$value[jadwal_jam]</th>
                             <th>$value[sp]</th>
                             <th>$value[keterangan]</th>
                             
                             <th class='text-center'>
                               <div class='btn-group' style='".($value['sp'] == 'diterima' ? 'display:none' : 'block')."'>
-                                <button type='button' class='btn btn-sm btn-success' onclick='_edit($value[idp])'> <i class='fe fe-edit-2'></i> </button>
                                 <button type='button' class='btn btn-sm btn-danger' onclick='_delete($value[idp])'> <i class='fe fe-trash'></i> </button>
                               </div>
                             </th>
@@ -110,13 +111,14 @@
 
     <script>
 
-        let listDokter = [], id_rumahsakit = 0
+        let listDokter = [], id_rumahsakit = 0, tipe = 0
 
         function _new(){
           fn.modal({
             id: 'form-pemeriksaan',
             title: 'Form Pemeriksaan',
             script: () => {
+              tipe = 0
               $('#hari').html('<span class="text-muted">Pilih rumah sakit</span>')
               $('#jb,#jt').prop('disabled', true)
             },
@@ -141,8 +143,9 @@
             id: 'form-pemeriksaan',
             title: 'Form Permohonan Jadwal',
             script: () => {
+              tipe = 1
+
               $('#jb,#jt').prop('disabled', false)
-              
               $('#hari').html('')
 
               let jadwal = ['senin','selasa','rabu','kamis','jumat','sabtu','minggu']
@@ -179,7 +182,9 @@
           let id = e.value
           id_rumahsakit = id
 
-          $('#hari').html('<span class="text-muted" id="pilih">Pilih dokter</span>')
+          if(tipe == 0){
+            $('#hari').html('<span class="text-muted" id="pilih">Pilih dokter</span>')
+          }
 
           _getLab()
 
@@ -207,23 +212,26 @@
           let id = e.value
           let dokter = listDokter.find((item) => item.id == id)
 
-          $('#jb').val(dokter.jam_buka)
-          $('#jt').val(dokter.jam_tutup)
+          if(tipe == 0){
 
-          let jadwal = dokter.jadwal_hari.split(',')
-          $('#hari').html('')
+            $('#jb').val(dokter.jam_buka)
+            $('#jt').val(dokter.jam_tutup)
 
-          for (let i = 0; i < jadwal.length; i++) {
-            let j = jadwal[i]
-            
-            $('#hari').append(
-              `
-                <label class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" class="custom-control-input" name="jadwal_hari" value="`+j+`">
-                  <span class="custom-control-label">`+fn.ucwords(j)+`</span>
-                </label>
-              `
-            )
+            let jadwal = dokter.jadwal_hari.split(',')
+            $('#hari').html('')
+
+            for (let i = 0; i < jadwal.length; i++) {
+              let j = jadwal[i]
+              
+              $('#hari').append(
+                `
+                  <label class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" name="jadwal_hari" value="`+j+`">
+                    <span class="custom-control-label">`+fn.ucwords(j)+`</span>
+                  </label>
+                `
+              )
+            }
           }
         }
 

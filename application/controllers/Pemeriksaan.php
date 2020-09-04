@@ -16,9 +16,9 @@ class Pemeriksaan extends CI_Controller {
 
 		$data['rumahsakit'] = _get('rumah_sakit')->result_array();
 
-		$data['jml'] = _getwhere('pemeriksaan', ['status' => 'diterima'])->num_rows();
+		$data['jml'] = _getwhere('pemeriksaan', ['status' => 'diterima', 'created_by' => auth('id')])->num_rows();
 
-		$data['data'] = $this->db->select('*,rumah_sakit.nama as rsn,pemeriksaan.jadwal_hari as jh,pemeriksaan.status as sp,pemeriksaan.id as idp')->from('pemeriksaan')->where('pemeriksaan.deleted_at', null)->join('rumah_sakit', 'rumah_sakit.id = pemeriksaan.id_rumahsakit')->join('dokter', 'dokter.id = pemeriksaan.id_dokter')->get()->result_array();
+		$data['data'] = $this->db->select('*,rumah_sakit.nama as rsn,pemeriksaan.jadwal_hari as jh,pemeriksaan.status as sp,pemeriksaan.id as idp')->order_by('pemeriksaan.id','desc')->from('pemeriksaan')->where('pemeriksaan.created_by', auth('id'))->where('pemeriksaan.deleted_at', null)->join('rumah_sakit', 'rumah_sakit.id = pemeriksaan.id_rumahsakit')->join('dokter', 'dokter.id = pemeriksaan.id_dokter')->get()->result_array();
 		$this->load->view('pages/dashboard/pemeriksaan/pemeriksaan', $data);
 	}
 
@@ -30,6 +30,7 @@ class Pemeriksaan extends CI_Controller {
 			'jenis' => post('jenis') == 1 ? 'laboratorium' : 'dokter',
 			'id_dokter' => post('id_dokter'),
 			'id_lab' => post('id_lab'),
+			'jadwal_jam' => post('jam_buka').' - '.post('jam_tutup'),
 			'jadwal_hari' => post('jadwal_hari'),
 			'keterangan' => '',
 			'created_by' => auth('id')
