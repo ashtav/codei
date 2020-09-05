@@ -23,7 +23,7 @@ class Pemeriksaan extends CI_Controller {
 	}
 
 	public function store(){
-		$rs = _getwhere('rumah_sakit', ['created_by' => auth('id')])->row_array();
+		$rs = _getwhere('rumah_sakit', ['id' => post('id_rumahsakit')])->row_array();
 
 		$data = [
 			'id_rumahsakit' => post('id_rumahsakit'),
@@ -33,6 +33,7 @@ class Pemeriksaan extends CI_Controller {
 			'jadwal_jam' => post('jam_buka').' - '.post('jam_tutup'),
 			'jadwal_hari' => post('jadwal_hari'),
 			'keterangan' => '',
+			'notif_ke' => $rs['created_by'],
 			'created_by' => auth('id')
 		];
 		
@@ -56,6 +57,10 @@ class Pemeriksaan extends CI_Controller {
 
 	public function delete($id){
 		_delete('pemeriksaan', ['id' => $id]);
+	}
+
+	public function seen($id){
+		_update('pemeriksaan', ['id' => $id], ['notif_ke' => '']);
 	}
 
 }

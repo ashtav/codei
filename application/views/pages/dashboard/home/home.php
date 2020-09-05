@@ -52,7 +52,8 @@
                   <div class="card">
                     <div class="card-body p-3 text-center">
                       <div class="text-right text-red">
-                        <i class="fe fe-activity"></i>
+                        <span class="ml-2 tag tag-red" style="display: <?= ($notif == 0 ? 'none' : '') ?> "><?= $notif ?></span> 
+                        <i class="fe fe-activity" style="display: <?= ($notif != 0 ? 'none' : '') ?> "></i>
                       </div>
                       <div class="h1 m-0"><?= $jmlpemeriksaan ?></div>
                       <div class="text-muted mb-4">Pemeriksaan</div>

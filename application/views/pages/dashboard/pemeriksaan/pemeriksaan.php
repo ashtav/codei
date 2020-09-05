@@ -1,5 +1,12 @@
 <?php $this->load->view('partials/header') ?>
 
+<style>
+
+  .text-danger td{
+    color: red !important
+  }
+</style>
+
   <body>
 
     <div class="page">
@@ -62,22 +69,23 @@
                         $lab = _getwhere('laboratorium', ['id' => $value['id_lab']])->row_array() ?? ['nama_lab' => '-'];
 
                         echo "
-                          <tr>
-                            <th class='text-center'>$no</th>
-                            <th>$value[rsn]</th>
-                            <th>$value[jenis]</th>
-                            <th>".($value['jenis'] == 'dokter' ? $value['nama'] : '-')."</th>
-                            <th>$lab[nama_lab]</th>
-                            <th>$value[jh]</th>
-                            <th>$value[jadwal_jam]</th>
-                            <th>$value[sp]</th>
-                            <th>$value[keterangan]</th>
+                          <tr class='".($value['sp'] == 'ditolak' ? 'text-danger' : '')."'>
+                            <td class='text-center'>$no</td>
+                            <td>$value[rsn]</td>
+                            <td>$value[jenis]</td>
+                            <td>".($value['jenis'] == 'dokter' ? $value['nama'] : '-')."</td>
+                            <td>$lab[nama_lab]</td>
+                            <td>$value[jh]</td>
+                            <td>$value[jadwal_jam]</td>
+                            <td>$value[sp]</td>
+                            <td>$value[keterangan]</td>
                             
-                            <th class='text-center'>
-                              <div class='btn-group' style='".($value['sp'] == 'diterima' ? 'display:none' : 'block')."'>
-                                <button type='button' class='btn btn-sm btn-danger' onclick='_delete($value[idp])'> <i class='fe fe-trash'></i> </button>
+                            <td class='text-center'>
+                              <div class=''>
+                                <button type='button' class='btn btn-sm btn-danger'  style='".($value['sp'] != 'menunggu' ? 'display:none' : 'block')."' onclick='_delete($value[idp])'> <i class='fe fe-trash'></i> </button>
+                                <button type='button' class='btn btn-sm btn-success' style='".($value['notif_ke'] != auth('id') ? 'display:none' : 'block')."' onclick='_seen($value[idp])'> <i class='fe fe-eye'></i> </button>
                               </div>
-                            </th>
+                            </td>
                           </tr>
                         ";
 
@@ -334,6 +342,17 @@
               return false
             }
           })
+        }
+
+        function _seen(id){
+          
+          fn.request({
+              url: 'pemeriksaan/seen/'+id,
+              success: (res) => {
+                  reload()
+              }
+          })
+
         }
 
     </script>

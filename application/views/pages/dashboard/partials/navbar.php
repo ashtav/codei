@@ -1,3 +1,20 @@
+<?php
+
+  $ci = &get_instance();
+
+  $notif = 0;
+
+  $query = $this->db->select('*,rumah_sakit.created_by as rs_owner')->from('pemeriksaan')->where('pemeriksaan.deleted_at', null)->join('rumah_sakit', 'rumah_sakit.id = pemeriksaan.id_rumahsakit')->get()->result_array();
+
+  foreach ($query as $v) {
+    if($v['rs_owner'] == $v['notif_ke']){
+      $notif += 1;
+    }
+  }
+
+
+?>
+
 <div class="header py-4">
   <div class="container">
     <div class="d-flex">
@@ -71,7 +88,7 @@
             </li>
 
             <li class="nav-item <?= $auth['role'] != 'admin_rs' ? 'd-none' : '' ?>">
-              <a href="<?= url('/dashboard/pemberitahuan') ?>" class="nav-link"><i class="fe fe-bell"></i> <span class="d-none d-md-block">Pemberitahuan</span></a>
+              <a href="<?= url('/dashboard/pemberitahuan') ?>" class="nav-link"><i class="fe fe-bell"></i> <span class="d-none d-md-block">Pemberitahuan <span class="ml-2 tag tag-red" style="display: <?= ($notif == 0 ? 'none' : '') ?> "><?= $notif ?></span>  </span></a>
             </li>
 
             
