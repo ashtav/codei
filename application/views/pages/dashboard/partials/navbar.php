@@ -7,7 +7,7 @@
   $query = $this->db->select('*,rumah_sakit.created_by as rs_owner')->from('pemeriksaan')->where('pemeriksaan.deleted_at', null)->join('rumah_sakit', 'rumah_sakit.id = pemeriksaan.id_rumahsakit')->get()->result_array();
 
   foreach ($query as $v) {
-    if($v['rs_owner'] == $v['notif_ke']){
+    if($v['rs_owner'] == $v['notif_ke'] && $v['notif_ke'] == auth('id')){
       $notif += 1;
     }
   }

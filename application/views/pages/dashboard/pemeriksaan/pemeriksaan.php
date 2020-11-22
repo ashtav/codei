@@ -114,12 +114,11 @@
     <?php
       $this->load->view('partials/script');
       $this->load->view('pages/dashboard/pemeriksaan/modals/form-pemeriksaan');
-
     ?>
 
     <script>
 
-        let listDokter = [], id_rumahsakit = 0, tipe = 0
+        let listDokter = [], listLab = [], id_rumahsakit = 0, tipe = 0
 
         function _new(){
           fn.modal({
@@ -187,17 +186,19 @@
         }
 
         function _getDokter(e){
-          let id = e.value
-          id_rumahsakit = id
+          if(e){
+            let id = e.value
+            id_rumahsakit = id
+          }
 
           if(tipe == 0){
             $('#hari').html('<span class="text-muted" id="pilih">Pilih dokter</span>')
           }
 
-          _getLab()
+          // _getLab()
 
           fn.request({
-              url: 'dokter/list_dokter/'+id,
+              url: 'dokter/list_dokter/'+id_rumahsakit,
               method: 'get',
               success: (res) => {
                   let data = JSON.parse(res)
@@ -214,31 +215,76 @@
                   }
               }
           })
+
+          fn.request({
+              url: 'dokter/list_laboratorium/'+id_rumahsakit,
+              method: 'get',
+              success: (res) => {
+                  let data = JSON.parse(res)
+                  listLab = data
+
+                  // $('#listdokter').html('<option value="">Pilih Dokter</option>')
+
+                  // for (let i = 0; i < data.length; i++) {
+                  //   let dokter = data[i]
+                  //   $('#listdokter').append(
+                  //     '<option value='+dokter.id+'>'+dokter.nama+' ('+dokter.spesialis+')</option>'
+                  //   )
+                  // }
+              }
+          })
         }
 
-        function _getJadwal(e){
-          let id = e.value
-          let dokter = listDokter.find((item) => item.id == id)
+        function _getJadwal(e, t){
 
           if(tipe == 0){
 
-            $('#jb').val(dokter.jam_buka)
-            $('#jt').val(dokter.jam_tutup)
+            if(t == 0){
 
-            let jadwal = dokter.jadwal_hari.split(',')
-            $('#hari').html('')
+              let id = e.value
+              let dokter = listDokter.find((item) => item.id == id)
 
-            for (let i = 0; i < jadwal.length; i++) {
-              let j = jadwal[i]
+              $('#jb').val(dokter.jam_buka)
+              $('#jt').val(dokter.jam_tutup)
+
+              let jadwal = dokter.jadwal_hari.split(',')
+              $('#hari').html('')
+
+              for (let i = 0; i < jadwal.length; i++) {
+                let j = jadwal[i]
+
+                $('#hari').append(
+                  `
+                    <label class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" class="custom-control-input" name="jadwal_hari" value="`+j+`">
+                      <span class="custom-control-label">`+fn.ucwords(j)+`</span>
+                    </label>
+                  `
+                )
+              }
+            }else{
+              let id = e.value
+              let lab = listLab.find((item) => item.id == id)
+
+              $('#jb').val(lab.jam_buka)
+              $('#jt').val(lab.jam_tutup)
+
+              let jadwal = lab.jadwal_hari.split(',')
+              $('#hari').html('')
+
+              for (let i = 0; i < jadwal.length; i++) {
+                let j = jadwal[i]
+
+                $('#hari').append(
+                  `
+                    <label class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" class="custom-control-input" name="jadwal_hari" value="`+j+`">
+                      <span class="custom-control-label">`+fn.ucwords(j)+`</span>
+                    </label>
+                  `
+                )
+              }
               
-              $('#hari').append(
-                `
-                  <label class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" class="custom-control-input" name="jadwal_hari" value="`+j+`">
-                    <span class="custom-control-label">`+fn.ucwords(j)+`</span>
-                  </label>
-                `
-              )
             }
           }
         }
@@ -264,17 +310,30 @@
         }
 
         function _switch(e){
-          $('#lab').hide()
-          $('#doc').show()
-
-          $('#pilih').html('Pilih dokter')
+          if(listDokter.length == 0){
+            toast('Pilih rumah sakit')
+            $(e).prop('checked', false)
+            return
+          }
 
           if($(e).is(':checked')){
             $('#doc').hide()
             $('#lab').show()
 
-            $('#pilih').html('Pilih laboratorium')
-            // _getLab()
+            if(tipe == 0){
+              $('#hari').html('Pilih laboratorium')
+            }
+
+            _getLab()
+          }else{
+            $('#lab').hide()
+            $('#doc').show()
+
+            if(tipe == 0){
+              $('#hari').html('Pilih dokter')
+            }
+
+            _getDokter()
           }
         }
 

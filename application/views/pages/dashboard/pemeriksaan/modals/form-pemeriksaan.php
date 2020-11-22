@@ -34,7 +34,7 @@
           <div class="form-group" id="doc">
             <label class="form-label">Pilih Dokter</label>
             <div class="input-icon">
-              <select name="id_dokter" class="form-control" id="listdokter" onchange="_getJadwal(this)">
+              <select name="id_dokter" class="form-control" id="listdokter" onchange="_getJadwal(this, 0)">
                   <option value="">Pilih Dokter</option>
               </select>
             </div>
@@ -43,7 +43,7 @@
           <div class="form-group" id="lab" style="display: none">
             <label class="form-label">Pilih Laboratorium</label>
             <div class="input-icon">
-              <select name="id_lab" class="form-control" id="listLab" onchange="_getJadwal(this)">
+              <select name="id_lab" class="form-control" id="listLab" onchange="_getJadwal(this, 1)">
                   <option value="">Pilih Laboratorium</option>
               </select>
             </div>

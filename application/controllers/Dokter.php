@@ -62,4 +62,9 @@ class Dokter extends CI_Controller {
 		echo json_encode($dokter);
 	}
 
+	public function list_laboratorium($id){
+		$lab = _getwhere('laboratorium', ['created_by' => $id])->result_array();
+		echo json_encode($lab);
+	}
+
 }
