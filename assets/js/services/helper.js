@@ -87,6 +87,7 @@ class Fn{
                     if(params.error != null){
                         params.error(err)
                     }else{
+                        console.log(err)
                         toast(err.statusText)
                     }
                 }

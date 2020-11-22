@@ -176,6 +176,11 @@
           id: 'form-dokter',
           title: 'Tambahkan Dokter',
           submit: (e) => {
+            if($('#file').val() == ''){
+              toast('Foto dokter wajib diisi!')
+              return false;
+            }
+
             fn.request({
                 url: 'dokter/store/',
                 data: new FormData($(e).find('form')[0]),

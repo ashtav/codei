@@ -12,6 +12,8 @@
     }
   }
 
+  $newUser = $ci->mod->get_where('users', ['status' => 'waiting'])->num_rows();
+  $rs = $ci->mod->get_where('rumah_sakit', ['status' => 'waiting'])->num_rows();
 
 ?>
 
@@ -80,11 +82,11 @@
             </li>
 
             <li class="nav-item <?= $auth['role'] != 'admin' ? 'd-none' : '' ?>">
-              <a href="<?= url('/dashboard/users') ?>" class="nav-link"><i class="fe fe-users"></i> <span class="d-none d-md-block">Pengguna</span></a>
+              <a href="<?= url('/dashboard/users') ?>" class="nav-link"><i class="fe fe-users"></i> <span class="d-none d-md-block">Pengguna <span class="ml-2 tag tag-red" style="display: <?= ($newUser == 0 ? 'none' : '') ?> "> <?= $newUser; ?></span></span></a>
             </li>
 
-            <li class="nav-item">
-              <a href="<?= url('/dashboard/rumah-sakit') ?>" class="nav-link"><i class="fe fe-git-branch"></i> <span class="d-none d-md-block">Rumah Sakit</span></a>
+            <li class="nav-item <?= $auth['role'] == 'pasien' ? 'd-none' : '' ?>">
+              <a href="<?= url('/dashboard/rumah-sakit') ?>" class="nav-link"><i class="fe fe-git-branch"></i> <span class="d-none d-md-block">Rumah Sakit <span class="ml-2 tag tag-red" style="display: <?= ($rs == 0 || auth('role') != 'admin' ? 'none' : '') ?> "><?= $rs ?></span> </span></a>
             </li>
 
             <li class="nav-item <?= $auth['role'] != 'admin_rs' ? 'd-none' : '' ?>">

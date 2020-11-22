@@ -24,11 +24,12 @@ class Pemeriksaan extends CI_Controller {
 
 	public function store(){
 		$rs = _getwhere('rumah_sakit', ['id' => post('id_rumahsakit')])->row_array();
+		$lab = _getWhere('laboratorium', ['id' => post('id_lab')])->row_array();
 
 		$data = [
 			'id_rumahsakit' => post('id_rumahsakit'),
 			'jenis' => post('jenis') == 1 ? 'laboratorium' : 'dokter',
-			'id_dokter' => post('id_dokter'),
+			'id_dokter' => post('id_dokter') == null || post('id_dokter') == '' ? $lab['id_dokter'] : post('id_dokter'),
 			'id_lab' => post('id_lab'),
 			'jadwal_jam' => post('jam_buka').' - '.post('jam_tutup'),
 			'jadwal_hari' => post('jadwal_hari'),

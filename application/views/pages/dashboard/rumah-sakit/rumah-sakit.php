@@ -80,7 +80,7 @@
             </div>
 
             <div class="table-responsive">
-              <?php if(!$data){ _empty(); }else{ ?>
+              <?php if(!$data){  }else{ ?>
               <div class="card">
                 <table class="table table-striped m-0">
                   <thead>

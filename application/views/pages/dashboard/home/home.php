@@ -20,7 +20,7 @@
               </div>
             </div>
 
-            <?php if(!$has){ ?>
+            <?php if(!$has && auth('role') != 'admin'){ ?>
             <div class="alert <?= ($terdaftar > 0 ? 'alert-success' : 'alert-info')?>">
               <?= $terdaftar > 0 ? 'Pendaftaran rumah sakit Anda sedang diproses.' : 'Ingin mendaftarkan klinik atau rumah sakit Anda?' ?>
 
